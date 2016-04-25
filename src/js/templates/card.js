@@ -1,7 +1,12 @@
 // Card Template
 function card (track) {
+
+  if (track.artwork_url === null){
+    track.artwork_url = 'http://placehold.it/100x100';
+  }
+
   return `
-    <div class="card">
+    <li class="card" data-stream="${track.stream_url}">
 
       <img src='${track.artwork_url}' class="album_art"/>
 
@@ -10,8 +15,7 @@ function card (track) {
         <div class="artist_name">${track.user.username}</div>
       </div>
 
-    </div>
-
+    </li>
   `;
 }
 

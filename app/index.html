@@ -10,22 +10,23 @@
     <div class="container">
       <h1>Soundcloud API</h1>
       <h3>Search and Play Songs from Soundcloud.com</h3>
-      <form class="form" action="index.html" method="post">
+
+      <form class="form" id="searchSound">
         <input type="search" name="name" value="" id="searchInput">
-        <input type="button" name="name" value="Search" id="searchButton">
+        <button>Search</button>
       </form>
+
       <br>
-      <audio controls="controls">
-        Your browser does not support the <code>audio</code> element.
-        <source src="" type="audio/wav">
-      </audio>
+
+      <audio src="" id="player" controls="controls" autoplay="true"></audio>
+
       <p>
-        Now Playing: <span> CURRENT SONG TITLE HERE </span>
+        Now Playing: <span id="now_playing"></span>
       </p>
 
-      <div class="songs">
+      <ul id="results">
         <!-- songs go here -->
-      </div>
+      </ul>
 
     </div>
     <script src="js/bundle.js"></script>

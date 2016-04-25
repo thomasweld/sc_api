@@ -1,5 +1,10 @@
+body {
+  background: bone; }
+
 .container {
-  margin: 2%; }
+  margin: 0px auto;
+  padding: 2%;
+  max-width: 600px; }
 
 .card {
   margin: 2%; }

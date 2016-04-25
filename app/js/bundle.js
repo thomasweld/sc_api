@@ -9852,42 +9852,32 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-// check for jquery
-// console.log($);
-
 // import template function that builds html from API data
 
 var _templatesCard = require('./templates/card');
 
 var _templatesCard2 = _interopRequireDefault(_templatesCard);
 
-// assign api url to a variable for later use
-var url = 'https://api.soundcloud.com/tracks?client_id=6d394f941827974ca06f3760a0741529';
+var results = (0, _jquery2['default'])('#results');
+var form = (0, _jquery2['default'])('#searchSound');
+var field = (0, _jquery2['default'])('#searchInput');
+var player = (0, _jquery2['default'])('#player');
+var now_playing = (0, _jquery2['default'])('#now_playing');
 
-// assign HTML area where template will render profile cards on the page
-// will append results here later
-var cardArea = (0, _jquery2['default'])('.songs');
+// assign api token and url to a variable for later use
+var token = '6d394f941827974ca06f3760a0741529';
 
-// variable to hold html generated from forEach loop
-var cardsHTML = '';
+var searchURL = 'https://api.soundcloud.com/tracks?client_id=' + token + '&limit=20&q=';
 
-(0, _jquery2['default'])('#searchInput').keypress(function (e) {
-  if (e.which == 13) {
-    (0, _jquery2['default'])('#searchButton').trigger("click");
-  }
-});
+function searchSite(term) {
 
-// when someone clicks search, add search to query url
-(0, _jquery2['default'])('#searchButton').click(function () {
-  // prevent default action of clicking the button or pressing enter
-  event.preventDefault();
-  // add search term from #searchInput
-  var seachTerm = (0, _jquery2['default'])('#searchInput').val();
-  url = url + '&q=' + seachTerm;
+  console.log(term);
+  //empty results
+  results.empty();
+
   // Make My Request
-  var dataRequest = _jquery2['default'].getJSON(url);
+  var dataRequest = _jquery2['default'].getJSON(searchURL + term);
 
-  // When it succedes, call my template Card Function
   dataRequest.then(function (res) {
     console.log(res);
 
@@ -9897,27 +9887,95 @@ var cardsHTML = '';
       // passing each user into card function for templating / processing
       var html = (0, _templatesCard2['default'])(track);
 
-      cardsHTML += html;
-    });
+      // cardsHTML += html;
 
-    // append each result user card to html section class=cardArea
-    cardArea.append(cardsHTML);
+      // append each result user card to html section class=cardArea
+      results.append(html);
+    });
   });
+};
+
+// always have event object passed in when listening for event
+// on('submit') listens for ENTER KEY
+form.on('submit', function (event) {
+  event.preventDefault();
+
+  var term = field.val();
+  searchSite(term);
 });
+
+// when someone clicks on a track, play audio -- use delegate selector to find each track and
+//
+results.on('click', 'li', function (event) {
+  event.preventDefault();
+
+  console.log((0, _jquery2['default'])(this));
+  // get stream url from data-stream from element li tag or "this" element that was clicked
+  var stream = (0, _jquery2['default'])(this).data('stream');
+  // then change source attribute of player to stream url of the one that was clicked
+  player.attr('src', stream + '?client_id=' + token);
+
+  now_playing.html((0, _jquery2['default'])(this).find('.song_name').text());
+});
+
+//
+// $('#searchInput').keypress(function(e) {
+//     if(e.which == 13) {
+//         $('#searchButton').trigger("click");
+//     }
+// });
+//
+//
+
+// // when someone clicks search, add search to query url
+// $('#searchButton').click(function(){
+//   // prevent default action of clicking the button or pressing enter
+//   event.preventDefault();
+//   // add search term from #searchInput
+//   var seachTerm = $('#searchInput').val();
+//   url = url + '&q=' + seachTerm;
+//   // Make My Request
+//   var dataRequest = $.getJSON(url);
+
+//  // When it succedes, call my template Card Function
+//   dataRequest.then( function (res) {
+//     console.log(res);
+//
+//     res.forEach( function (track) {
+//       console.log(track);
+//
+//       // passing each user into card function for templating / processing
+//       var html = card(track);
+//
+//       cardsHTML += html;
+//
+//     });
+//
+//     // append each result user card to html section class=cardArea
+//     cardArea.append(cardsHTML);
+//
+//   });
+//
+// });
 
 },{"./templates/card":3,"jquery":1}],3:[function(require,module,exports){
 // Card Template
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 function card(track) {
-  return "\n    <div class=\"card\">\n\n      <img src='" + track.artwork_url + "' class=\"album_art\"/>\n\n      <div class=\"content\">\n        <div class=\"song_name\">" + track.title + "</div>\n        <div class=\"artist_name\">" + track.user.username + "</div>\n      </div>\n\n    </div>\n\n  ";
+
+  if (track.artwork_url === null) {
+    track.artwork_url = 'http://placehold.it/100x100';
+  }
+
+  return '\n    <li class="card" data-stream="' + track.stream_url + '">\n\n      <img src=\'' + track.artwork_url + '\' class="album_art"/>\n\n      <div class="content">\n        <div class="song_name">' + track.title + '</div>\n        <div class="artist_name">' + track.user.username + '</div>\n      </div>\n\n    </li>\n  ';
 }
 
-exports["default"] = card;
-module.exports = exports["default"];
+exports['default'] = card;
+module.exports = exports['default'];
 
 },{}]},{},[2])
 
