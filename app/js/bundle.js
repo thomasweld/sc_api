@@ -9868,29 +9868,41 @@ var url = 'https://api.soundcloud.com/tracks?client_id=6d394f941827974ca06f3760a
 // will append results here later
 var cardArea = (0, _jquery2['default'])('.songs');
 
-// Make My Request
-var dataRequest = _jquery2['default'].getJSON(url);
-
-// console.log(dataRequest);
-
 // variable to hold html generated from forEach loop
 var cardsHTML = '';
 
-// When it succedes, call my template Card Function
-dataRequest.then(function (res) {
-  console.log(res);
+(0, _jquery2['default'])('#searchInput').keypress(function (e) {
+  if (e.which == 13) {
+    (0, _jquery2['default'])('#searchButton').trigger("click");
+  }
+});
 
-  res.forEach(function (track) {
-    console.log(track);
+// when someone clicks search, add search to query url
+(0, _jquery2['default'])('#searchButton').click(function () {
+  // prevent default action of clicking the button or pressing enter
+  event.preventDefault();
+  // add search term from #searchInput
+  var seachTerm = (0, _jquery2['default'])('#searchInput').val();
+  url = url + '&q=' + seachTerm;
+  // Make My Request
+  var dataRequest = _jquery2['default'].getJSON(url);
 
-    // passing each user into card function for templating / processing
-    var html = (0, _templatesCard2['default'])(track);
+  // When it succedes, call my template Card Function
+  dataRequest.then(function (res) {
+    console.log(res);
 
-    cardsHTML += html;
+    res.forEach(function (track) {
+      console.log(track);
+
+      // passing each user into card function for templating / processing
+      var html = (0, _templatesCard2['default'])(track);
+
+      cardsHTML += html;
+    });
+
+    // append each result user card to html section class=cardArea
+    cardArea.append(cardsHTML);
   });
-
-  // append each result user card to html section class=cardArea
-  cardArea.append(cardsHTML);
 });
 
 },{"./templates/card":3,"jquery":1}],3:[function(require,module,exports){
@@ -9901,7 +9913,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 function card(track) {
-  return "\n    <div class=\"card\">\n\n      <img src='" + track.artwork_url + "' class=\"album_art\"/>\n\n\n\n      <div class=\"content\">\n        <div class=\"song_name\">" + track.title + "</div>\n        <div class=\"artist_name\">" + track.user.username + "</div>\n      </div>\n\n    </div>\n\n  ";
+  return "\n    <div class=\"card\">\n\n      <img src='" + track.artwork_url + "' class=\"album_art\"/>\n\n      <div class=\"content\">\n        <div class=\"song_name\">" + track.title + "</div>\n        <div class=\"artist_name\">" + track.user.username + "</div>\n      </div>\n\n    </div>\n\n  ";
 }
 
 exports["default"] = card;
