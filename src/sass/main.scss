@@ -13,6 +13,17 @@ body {
   margin: 2%;
 }
 
+input {
+  width: 80%;
+  border: 1px solid grey;
+}
+
+button {
+  background-color: slateblue;
+  color: #ffffff;
+  margin: .5em auto;
+}
+
 .album_art {
   width: 100px;
   height: auto;
