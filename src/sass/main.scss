@@ -6,7 +6,7 @@ body {
 .container {
   margin: 0px auto;
   padding: 2%;
-  max-width: 600px;
+  max-width: 1048px;
 }
 
 .card {
@@ -14,7 +14,7 @@ body {
 }
 
 input {
-  width: 80%;
+  max-width: 200px;
   border: 1px solid grey;
 }
 
@@ -27,4 +27,21 @@ button {
 .album_art {
   width: 100px;
   height: auto;
+}
+
+ul#results {
+  overflow: auto;
+  padding-left: 0px;
+  margin: 0 1em;;
+
+  li.card {
+    list-style: none;
+    width: 200px;
+    height: 200px;
+    padding: .4em;
+    overflow: hidden;
+    text-align: center;
+    float: left;
+    background-color: #ddd;
+  }
 }
