@@ -1,4 +1,4 @@
-# Project Surge URL: tiy-thomas-sc_api.surge.sh
+# Project Surge URL: http://tiy-thomas-sc_api.surge.sh
 
 This is a basic template for starting projects.
 
